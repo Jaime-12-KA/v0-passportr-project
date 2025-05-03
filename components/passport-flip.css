@@ -1,0 +1,38 @@
+.passport-flip-container {
+  perspective: 1000px;
+  width: 100%;
+  height: 100%;
+}
+
+.passport-flipper {
+  transition: 0.8s;
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.passport-flip-container.flipped .passport-flipper {
+  transform: rotateY(180deg);
+}
+
+.passport-front,
+.passport-back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.passport-front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.passport-back {
+  transform: rotateY(180deg);
+}

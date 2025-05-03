@@ -1,0 +1,338 @@
+/* Passport Cover Styles */
+.passport-cover-container {
+  perspective: 1200px;
+}
+
+.passport-cover {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.passport-cover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Passport Open Styles */
+.passport-open-container {
+  position: relative;
+}
+
+/* Passport Page Styles */
+.passport-page {
+  background-color: var(--brand-cloud);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.passport-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* City Card Styles */
+.city-card {
+  transition: all 0.3s ease;
+}
+
+.city-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Progress Bar Styles */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Animation for passport opening */
+@keyframes openPassport {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(180deg);
+    opacity: 1;
+  }
+}
+
+@keyframes closePassport {
+  0% {
+    transform: rotateY(180deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+.passport-opening {
+  animation: openPassport 0.8s forwards;
+}
+
+.passport-closing {
+  animation: closePassport 0.8s forwards;
+}
+
+/* Stamp styles */
+.stamp {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.stamp:hover {
+  transform: scale(1.05);
+}
+
+.stamp::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
+  pointer-events: none;
+}
+
+/* Badge locked style */
+.badge-locked {
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-locked::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 5px,
+    rgba(0, 0, 0, 0.1) 5px,
+    rgba(0, 0, 0, 0.1) 10px
+  );
+  pointer-events: none;
+}
+
+/* Passport identity page styles */
+.passport-identity {
+  background-color: #f8f3e2;
+  position: relative;
+}
+
+/* Machine readable zone */
+.machine-readable {
+  font-family: "Courier New", monospace;
+  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+/* Add these CSS classes for the identity page flip animation */
+
+.identity-page {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.identity-flip-animation {
+  animation: identityFlip 1.2s ease-in-out;
+}
+
+@keyframes identityFlip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.passport-identity-container {
+  perspective: 1000px;
+  min-height: 600px;
+  margin-bottom: 1.5rem;
+}
+
+/* Enhanced passport page turning effect */
+.page-turning {
+  animation: pageTurn 0.4s ease-in-out;
+}
+
+@keyframes pageTurn {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: rotateY(90deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+/* 3D passport effect */
+.passport-3d-container {
+  perspective: 1200px;
+}
+
+.passport-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.passport-3d:hover {
+  transform: rotateY(15deg) rotateX(5deg);
+}
+
+/* Passport page shadow effect */
+.passport-page-shadow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1));
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Add these CSS rules for the passport flip animation */
+
+.passport-flip-container {
+  perspective: 1000px;
+  width: 100%;
+  height: 100%;
+}
+
+.passport-flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.passport-flip-container.flipped .passport-flipper {
+  transform: rotateY(180deg);
+}
+
+.passport-front,
+.passport-back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.passport-front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.passport-back {
+  transform: rotateY(180deg);
+}
+
+.welcome-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add a subtle page turning effect */
+@keyframes pageTurn {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.passport-flipper {
+  animation: pageTurn 1.2s ease-in-out;
+}
+
+/* Add a subtle paper texture to the welcome page */
+.welcome-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Add a subtle stamp effect to the official seal */
+@keyframes stampImpression {
+  0% {
+    transform: scale(1) rotate(6deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.05) rotate(6deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(6deg);
+    opacity: 0.9;
+  }
+}
+
+.welcome-page .w-24.h-24 img {
+  animation: stampImpression 4s ease-in-out infinite;
+}

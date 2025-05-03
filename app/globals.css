@@ -1,0 +1,1062 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add this to the top of the file, after the @tailwind imports */
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+body.onboarding {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+body.onboarding button,
+body.onboarding a {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 50;
+}
+
+/* 온보딩 화면의 버튼에 대한 명시적 스타일 */
+.onboarding button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+/* 온보딩 화면의 컨테이너에 대한 스타일 */
+.onboarding .h-screen {
+  pointer-events: auto !important;
+}
+
+/* Custom colors based on Passportr Brand Guidelines v2.0 */
+:root {
+  /* Foundation Neutrals */
+  --snow-white: #ffffff;
+  --light-gray: #f5f5f7;
+  --mid-gray: #d1d1d6;
+  --deep-gray: #8e8e93;
+
+  /* Primary Brand Color */
+  --azure-radiance: #00a9e0; /* Main brand color - sky blue */
+
+  /* Secondary Accent */
+  --forest-canopy: #2e7d32; /* Deep calm green */
+
+  /* Accent & Functional Colors */
+  --sunset-coral: #ff6b6b; /* Warm, vibrant coral for CTAs */
+  --highlight-gold: #ffd60a; /* For badges, premium features */
+  --success-green: #34c759; /* For success messages */
+  --alert-red: #ff3b30; /* For errors, warnings */
+
+  /* Text Colors */
+  --primary-text: #1d1d1f; /* Near black for main text */
+  --secondary-text: #8e8e93; /* Deep gray for secondary text */
+
+  /* Legacy variables (mapped to new colors) */
+  --brand-blue: var(--azure-radiance);
+  --brand-coral: var(--sunset-coral);
+  --brand-yellow: var(--highlight-gold);
+  --brand-sand: var(--light-gray);
+  --brand-white: var(--snow-white);
+  --brand-cloud: var(--light-gray);
+  --brand-navy: var(--primary-text);
+  --brand-gray: var(--secondary-text);
+
+  /* Legacy variables (kept for backward compatibility) */
+  --sky-blue: var(--azure-radiance);
+  --sunset-coral: var(--sunset-coral);
+  --cloud-white: var(--light-gray);
+  --sunshine-yellow: var(--highlight-gold);
+  --light-sand: var(--light-gray);
+  --deep-navy: var(--primary-text);
+  --stone-gray: var(--secondary-text);
+}
+
+/* Base styles */
+html,
+body {
+  overflow-y: auto;
+  overflow-x: hidden !important;
+  position: relative;
+  width: 100%;
+  max-width: 100vw !important;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  color: var(--primary-text);
+  background-color: var(--light-gray);
+  height: 100%; /* Add this line */
+}
+
+/* Add these styles to your existing globals.css */
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  max-width: 100vw !important;
+  font-family: "Inter", sans-serif;
+}
+
+/* Container styles */
+.container {
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  position: relative;
+  pointer-events: auto !important;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--primary-text);
+  font-weight: 700;
+}
+
+/* Button styles */
+button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative;
+}
+
+button:disabled {
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.btn-primary {
+  background-color: var(--sunset-coral);
+  color: var(--snow-white);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-button);
+}
+
+.btn-primary:hover {
+  background-color: #e85f5f;
+  box-shadow: var(--shadow-button-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: var(--azure-radiance);
+  color: var(--snow-white);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-button);
+}
+
+.btn-secondary:hover {
+  background-color: #0098ca;
+  box-shadow: var(--shadow-button-hover);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--azure-radiance);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--mid-gray);
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background-color: var(--light-gray);
+  border-color: var(--azure-radiance);
+}
+
+/* Card styles */
+.card {
+  background-color: var(--snow-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Tab styles */
+.tab-content {
+  display: block;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  max-width: 100vw !important;
+  pointer-events: auto !important;
+  width: 100%;
+  max-width: 100%;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tab-content.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tab-content-container {
+  width: 100% !important;
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+.tab-btn {
+  position: relative;
+  padding: 0.5rem 0.5rem;
+  transition: all 0.3s ease;
+  width: 20%;
+  min-width: 60px;
+  color: var(--secondary-text);
+  pointer-events: auto !important;
+  z-index: 10;
+  cursor: pointer !important;
+}
+
+.tab-btn.active {
+  color: var(--azure-radiance);
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--azure-radiance);
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 8px;
+  background-color: var(--light-gray);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.progress-fill.bg-sky-blue,
+.progress-fill.bg-brand-blue {
+  background-color: var(--azure-radiance);
+}
+
+.progress-fill.bg-sunset-coral,
+.progress-fill.bg-brand-coral {
+  background-color: var(--sunset-coral);
+}
+
+.progress-fill.bg-sunshine-yellow,
+.progress-fill.bg-brand-yellow {
+  background-color: var(--highlight-gold);
+}
+
+/* City card styles */
+.city-card {
+  transition: all 0.3s ease;
+}
+
+.city-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Stamp animation effects */
+@keyframes stamp-thunk {
+  0% {
+    transform: translateY(-50px) rotate(-5deg);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(5px) rotate(0deg);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-2px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.stamp-impact {
+  animation: stamp-impact 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes stamp-impact {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 15px 2px rgba(255, 107, 107, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px 5px rgba(255, 107, 107, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Slow spin animation for stamp borders */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 10s linear infinite;
+}
+
+/* 3D passport flip animation */
+@keyframes passport-flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.animate-passport-flip {
+  animation: passport-flip 1.5s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+/* Filter categories */
+.filter-categories {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  gap: 0.5rem;
+  scrollbar-width: none; /* Firefox */
+}
+
+.filter-categories::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.filter-category {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background-color: var(--light-gray);
+  transition: all 0.2s ease;
+}
+
+.filter-category.active {
+  background-color: var(--azure-radiance);
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tab-btn {
+    padding: 0.5rem 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-btn span {
+    font-size: 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
+
+/* Add these CSS rules to ensure proper pointer events and cursor behavior */
+
+/* Add this to fix cursor issues */
+input,
+textarea,
+select {
+  cursor: text !important;
+}
+
+button,
+a,
+[role="button"] {
+  cursor: pointer !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* Fix for any potential overlay issues */
+.fixed.inset-0 {
+  pointer-events: auto !important;
+}
+
+/* Ensure the navigation is always clickable */
+nav,
+.tab-btn {
+  pointer-events: auto !important;
+  z-index: 10;
+  cursor: pointer !important;
+}
+
+/* 기존 CSS 파일 내용은 유지하고 아래 스타일만 추가합니다 */
+
+/* 모바일 스크롤 관련 스타일 추가 */
+@media (max-height: 700px) {
+  .onboarding .h-screen,
+  .onboarding .h-full {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important;
+  }
+
+  /* 하단 네비게이션 메뉴가 항상 보이도록 설정 */
+  .sticky.bottom-0 {
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+    background-color: var(--snow-white);
+  }
+}
+
+/* 스크롤 가능한 컨테이너에 대한 스타일 */
+.overflow-auto,
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+  max-height: 80vh; /* Limit max height to prevent double scrollbars */
+}
+
+/* 모바일 화면에서 컨텐츠가 네비게이션 바에 가려지지 않도록 패딩 추가 */
+.min-h-screen {
+  padding-bottom: 4rem;
+}
+
+/* Add these styles to ensure the navigation bar doesn't overlap content */
+
+/* Fix for the navigation bar in onboarding screens */
+body.onboarding .h-16.bg-white.border-t.border-light-sand {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+/* Add padding to ensure content is not hidden behind the navigation bar */
+body.onboarding .flex-1.flex.items-center.justify-center {
+  padding-bottom: 5rem !important;
+}
+
+/* Ensure buttons and interactive elements have proper pointer events */
+body.onboarding button,
+body.onboarding [role="button"],
+body.onboarding a,
+body.onboarding .cursor-pointer {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 30;
+}
+
+/* Add a class to the body when in onboarding */
+body.onboarding {
+  overflow-x: hidden;
+}
+
+/* City name color on main city cover screen */
+.passport-main .city-card .text-cloud-white {
+  color: var(--snow-white) !important;
+}
+
+/* Add a specific CSS rule to ensure city names are always white
+This will serve as a fallback in case the inline styles are overridden */
+
+/* Ensure city names are always white on city cards */
+.city-card .absolute.bottom-0.left-0 h3,
+.city-card .absolute.bottom-0.left-0 p,
+.city-section .absolute.bottom-0.left-0 h2,
+.city-section .absolute.bottom-0.left-0 p {
+  color: var(--snow-white) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Ensure the main container doesn't create a second scrollbar */
+.container.mx-auto {
+  overflow-y: visible !important;
+}
+
+/* Fix for modal scrolling */
+.fixed.inset-0.z-50 {
+  overflow-y: auto;
+}
+
+/* Text color utility classes */
+.text-primary {
+  color: var(--primary-text) !important;
+}
+
+.text-secondary {
+  color: var(--secondary-text) !important;
+}
+
+.text-stone-gray {
+  color: var(--secondary-text) !important;
+}
+
+/* Add this to improve spacing in the stamp catalog */
+.stamp-catalog-container {
+  padding: 1.5rem;
+}
+
+.stamp-catalog-container .grid {
+  gap: 1.25rem;
+}
+
+.stamp-catalog-container h3 {
+  margin-bottom: 1rem;
+}
+
+.stamp-catalog-container p.text-sm {
+  margin-bottom: 1.5rem;
+}
+
+/* Remove shadow effects from identity page */
+.identity-page {
+  box-shadow: none !important;
+  background-color: white;
+}
+
+/* Improve spacing for stamp items */
+.stamp-item {
+  margin-bottom: 1rem;
+}
+
+.stamp-item .rounded-full {
+  margin-bottom: 0.75rem;
+}
+
+.stamp-item p {
+  margin-top: 0.5rem;
+}
+
+/* Add these animations for the timeline */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Add these styles for the passport flip animation */
+.passport-flip-container {
+  perspective: 1000px;
+  width: 100%;
+  height: 500px;
+}
+
+.passport-flip-container.flipped .passport-flipper {
+  transform: rotateY(180deg);
+}
+
+.passport-flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.passport-front,
+.passport-back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.passport-front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.passport-back {
+  transform: rotateY(180deg);
+}
+
+/* Add these styles to prevent scrolling on the splash screen */
+.h-screen.bg-\[\#00A9E0\] {
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Ensure the splash screen content is centered properly */
+.h-screen.bg-\[\#00A9E0\] .flex-col {
+  height: 100%;
+}
+
+/* Use this for better mobile height handling */
+.h-screen-dynamic {
+  height: 100vh; /* fallback */
+  height: 100dvh; /* dynamic viewport height */
+}
+
+/* Ensure content doesn't overflow horizontally */
+.app-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent content jumping when switching between tabs */
+.tab-container {
+  min-height: 50vh;
+}
+
+/* Media queries for responsive adjustments */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@keyframes bounce-once {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-bounce-once {
+  animation: bounce-once 1s ease-in-out;
+}
+
+/* 기존 CSS 내용은 유지하고 아래 내용을 추가합니다 */
+
+/* 스탬프 효과 애니메이션 */
+@keyframes stampIn {
+  0% {
+    transform: translateY(-100px) rotate(-45deg) scale(2);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-50px) rotate(-25deg) scale(1.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0) rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes stampImpact {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  75% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes inkSpread {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.stamp-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
+
+.stamp-effect.active {
+  opacity: 1;
+}
+
+.stamp-inner {
+  position: relative;
+  animation: stampIn 0.5s forwards;
+}
+
+.stamp-inner.impact {
+  animation: stampImpact 0.5s forwards;
+}
+
+/* 컨페티 애니메이션 */
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(1000px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: absolute;
+  animation: confettiFall linear forwards;
+}
+
+/* 도전 과제 완료 시 스탬프 효과 */
+.challenge-stamp {
+  position: relative;
+  overflow: hidden;
+}
+
+.challenge-stamp::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(255, 126, 103, 0.7) 0%, rgba(255, 126, 103, 0) 70%);
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.5s ease-out;
+}
+
+.challenge-stamp.stamped::after {
+  opacity: 1;
+  transform: scale(1);
+  animation: inkSpread 0.5s forwards;
+}
+
+/*
+Add these CSS rules to fix the mobile viewport height issues
+Add them after the existing CSS rules, near the end of the file
+*/
+
+/* Fix for mobile viewport height issues */
+:root {
+  --vh: 1vh;
+}
+
+/* Ensure the onboarding screens have proper layout */
+body.onboarding {
+  height: 100vh; /* Fallback */
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  touch-action: manipulation;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure navigation bar is always visible and properly positioned */
+.fixed.inset-0.flex.flex-col {
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+  max-height: 100vh;
+  max-height: calc(var(--vh, 1vh) * 100);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Prevent content from being hidden behind the navigation bar */
+.flex-1.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Fix for iOS Safari bottom bar */
+.h-16.bg-white.border-t {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  height: calc(4rem + env(safe-area-inset-bottom, 0));
+}
+
+/* iOS Safari 뷰포트 높이 문제 해결을 위한 CSS 추가 */
+:root {
+  --real-vh: 100vh;
+  --vh: 1vh;
+}
+
+/* 온보딩 화면에서 스크롤 방지 */
+body.onboarding {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  height: var(--real-vh);
+  overflow: hidden;
+  touch-action: none;
+  -webkit-overflow-scrolling: none;
+  overscroll-behavior: none;
+}
+
+/* 온보딩 화면 컨테이너 스타일 */
+#home-screen-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  height: 100%;
+  height: var(--real-vh);
+  max-height: 100%;
+  max-height: var(--real-vh);
+  touch-action: none;
+  -webkit-overflow-scrolling: none;
+  overscroll-behavior: none;
+}
+
+/* 하단 네비게이션 메뉴 스타일 */
+#home-screen-container > div:last-child {
+  flex-shrink: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* 메인 콘텐츠 영역 스타일 */
+#home-screen-container > div.flex-1 {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* iOS 디바이스에서 추가 패딩 적용 */
+@supports (-webkit-touch-callout: none) {
+  #home-screen-container > div:last-child {
+    padding-bottom: max(env(safe-area-inset-bottom, 0), 8px);
+  }
+
+  /* 메인 콘텐츠 영역에 오버스크롤 방지 */
+  #home-screen-container > div.flex-1 {
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 여권 이미지 최대 크기 제한 */
+  #passport-image img {
+    max-height: 50vh;
+    max-height: calc(var(--real-vh, 100vh) * 0.5);
+    width: auto;
+    object-fit: contain;
+  }
+}
+
+/* 화면 크기가 작은 기기에서 여권 이미지 크기 조정 */
+@media (max-height: 667px) {
+  #passport-image img {
+    max-height: 40vh;
+    max-height: calc(var(--real-vh, 100vh) * 0.4);
+  }
+}
+
+/* 화면 크기가 매우 작은 기기에서 여권 이미지 크기 조정 */
+@media (max-height: 568px) {
+  #passport-image img {
+    max-height: 35vh;
+    max-height: calc(var(--real-vh, 100vh) * 0.35);
+  }
+}
+
+/* 기존 CSS 내용 유지하고 아래 코드를 파일 맨 아래에 추가합니다 */
+
+/* 모바일 뷰포트 높이 문제 해결을 위한 CSS */
+:root {
+  --app-height: 100%;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  height: var(--app-height);
+}
+
+/* 모달 컨테이너 수정 */
+.modal {
+  height: 100%;
+  height: var(--app-height);
+  max-height: 100%;
+  max-height: var(--app-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* 하단 여백 제거 */
+.min-h-screen {
+  min-height: 100%;
+  min-height: var(--app-height);
+  padding-bottom: 0;
+}
+
+/* 온보딩 화면 수정 */
+body.onboarding {
+  height: 100%;
+  height: var(--app-height);
+}
+
+/* 컨텐츠 영역이 하단까지 확장되도록 수정 */
+.flex-1 {
+  flex: 1 1 auto;
+}
+
+/* 불필요한 하단 패딩 제거 */
+.p-4,
+.p-6,
+.p-8 {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+}
+
+/* 모달 내부 컨텐츠 스크롤 가능하도록 설정 */
+.popup {
+  max-height: 90%;
+  max-height: calc(var(--app-height) * 0.9);
+  overflow-y: auto;
+}
+
+/* 모달 컨테이너 스타일 추가 */
+.modal-container {
+  max-height: calc(var(--app-height, 100vh) - 2rem);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 모달 콘텐츠 스타일 추가 */
+.modal-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* 탭 컨테이너 스타일 추가 */
+.tab-container {
+  height: calc(var(--app-height, 100vh) - 4rem); /* 네비게이션 바 높이 고려 */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}

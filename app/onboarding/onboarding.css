@@ -1,0 +1,106 @@
+/* Onboarding specific styles */
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--brand-coral);
+  animation: fall 3s ease-in infinite;
+}
+
+@keyframes fall {
+  0% {
+    top: -10%;
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    transform: translateX(calc(20px - (random(40) * 1px))) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Stamp effect animations */
+@keyframes stamp-thunk {
+  0% {
+    transform: translateY(-50px) rotate(-5deg);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(5px) rotate(0deg);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-2px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.stamp-thunk {
+  animation: stamp-thunk 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Pulse glow animation for stamps */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 15px 2px rgba(255, 82, 82, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px 5px rgba(255, 82, 82, 0.6);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Slow spin animation for stamp borders */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin-slow 10s linear infinite;
+}
+
+/* Add styles to ensure the navigation bar doesn't overlap content */
+
+/* Fix for the navigation bar in onboarding screens */
+.onboarding .h-16.bg-white.border-t.border-light-sand {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+/* Add padding to ensure content is not hidden behind the navigation bar */
+.onboarding .flex-1.flex.items-center.justify-center {
+  padding-bottom: 5rem !important;
+}
+
+/* Ensure buttons and interactive elements have proper pointer events */
+.onboarding button,
+.onboarding [role="button"],
+.onboarding a,
+.onboarding .cursor-pointer {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 30;
+}
