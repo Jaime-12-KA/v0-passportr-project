@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
-import { X, Share2, HelpCircle, ArrowLeft, MapPin, Calendar, Award, Heart, MessageCircle } from "lucide-react"
+import { X, Share2, HelpCircle, ArrowLeft, MapPin, Calendar, Award } from "lucide-react"
 import { triggerHapticFeedback, hapticPatterns } from "@/utils/haptics"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { getLocalTipsByStampId, type LocalTip } from "@/utils/local-tips-data"
 
+// 스탬프 데이터 인터페이스에 localTip 필드 업데이트
 interface StampData {
   id: string
   name: string
@@ -44,8 +44,6 @@ export default function StampUnlockedPage() {
   const [showRipple, setShowRipple] = useState(false)
   const [showParticles, setShowParticles] = useState(false)
   const [showStampImpression, setShowStampImpression] = useState(false)
-  const [localTips, setLocalTips] = useState<LocalTip[]>([])
-  const [selectedTipIndex, setSelectedTipIndex] = useState(0)
   const stampRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
@@ -77,20 +75,9 @@ export default function StampUnlockedPage() {
       try {
         const parsedStamp = JSON.parse(stampData)
         setStamp(parsedStamp)
-
-        // 스탬프 ID로 현지인 팁 가져오기
-        if (parsedStamp.id) {
-          const tips = getLocalTipsByStampId(parsedStamp.id)
-          setLocalTips(tips.length > 0 ? tips : getLocalTipsByStampId("gyeongbokgung")) // 팁이 없으면 경복궁 팁을 기본값으로 사용
-        }
       } catch (e) {
         console.error("Failed to parse stamp data:", e)
-        // 기본 팁 설정
-        setLocalTips(getLocalTipsByStampId("gyeongbokgung"))
       }
-    } else {
-      // 기본 팁 설정
-      setLocalTips(getLocalTipsByStampId("gyeongbokgung"))
     }
 
     if (typeof window !== "undefined") {
@@ -212,32 +199,6 @@ export default function StampUnlockedPage() {
     router.back()
   }
 
-  const handleNextTip = () => {
-    triggerHapticFeedback(hapticPatterns.light)
-    if (localTips.length > 1) {
-      setSelectedTipIndex((prev) => (prev + 1) % localTips.length)
-    }
-  }
-
-  const handlePrevTip = () => {
-    triggerHapticFeedback(hapticPatterns.light)
-    if (localTips.length > 1) {
-      setSelectedTipIndex((prev) => (prev === 0 ? localTips.length - 1 : prev - 1))
-    }
-  }
-
-  const handleLikeTip = (tipIndex: number) => {
-    triggerHapticFeedback(hapticPatterns.medium)
-    setLocalTips((prevTips) => {
-      const newTips = [...prevTips]
-      newTips[tipIndex] = {
-        ...newTips[tipIndex],
-        likes: newTips[tipIndex].likes + 1,
-      }
-      return newTips
-    })
-  }
-
   if (!stamp) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -251,7 +212,6 @@ export default function StampUnlockedPage() {
 
   // Special animation for royal places
   const isRoyalPalace = stamp.stampIcon === "fa-crown"
-  const currentTip = localTips[selectedTipIndex] || null
 
   return (
     <div className="min-h-screen bg-cloud-white">
@@ -359,9 +319,7 @@ export default function StampUnlockedPage() {
                             ? "/images/bukchon.png"
                             : stamp.id === "dongdaemun"
                               ? "/images/dongdaemun.png"
-                              : stamp.id === "starbucks"
-                                ? "/images/starbucks.png"
-                                : stamp.stampImage || stamp.image || "/placeholder.svg"
+                              : stamp.stampImage || stamp.image || "/placeholder.svg"
                 }
                 alt={stamp.name}
                 className="w-full h-full object-cover"
@@ -405,9 +363,7 @@ export default function StampUnlockedPage() {
                             ? "/images/bukchon.png"
                             : stamp.id === "dongdaemun"
                               ? "/images/dongdaemun.png"
-                              : stamp.id === "starbucks"
-                                ? "/images/starbucks.png"
-                                : stamp.stampImage || stamp.image || "/placeholder.svg"
+                              : stamp.stampImage || stamp.image || "/placeholder.svg"
                 }
                 alt={stamp.name}
                 className="w-full h-full object-cover"
@@ -490,129 +446,66 @@ export default function StampUnlockedPage() {
 
         {/* Local Tips Section */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold text-deep-navy flex items-center">
-              <span className="text-xl mr-2">💡</span>
-              {currentLanguage === "en" ? "Local Tips" : "현지인 팁"}
-            </h2>
+          <h2 className="text-lg font-bold text-deep-navy mb-3 flex items-center">
+            <span className="text-xl mr-2">💡</span>
+            {currentLanguage === "en" ? "Local Tips" : "현지인 팁"}
+          </h2>
 
-            {localTips.length > 1 && (
-              <div className="flex items-center text-xs">
-                <span className="text-stone-gray mr-2">
-                  {selectedTipIndex + 1}/{localTips.length}
-                </span>
-                <div className="flex space-x-1">
-                  <button
-                    onClick={handlePrevTip}
-                    className="w-6 h-6 rounded-full bg-light-sand flex items-center justify-center"
-                  >
-                    <ArrowLeft className="w-3 h-3" />
-                  </button>
-                  <button
-                    onClick={handleNextTip}
-                    className="w-6 h-6 rounded-full bg-light-sand flex items-center justify-center transform rotate-180"
-                  >
-                    <ArrowLeft className="w-3 h-3" />
-                  </button>
+          <div className="flex items-start mb-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0">
+              <img
+                src={stamp.localTip?.author?.avatar || "/images/jaime-avatar.png"}
+                alt="Local guide"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center mb-1">
+                <p className="font-medium text-deep-navy">{stamp.localTip?.author?.name || "Jaime Sung"}</p>
+                <div className="ml-2 px-2 py-0.5 bg-light-sand rounded-full text-xs text-stone-gray">
+                  {currentLanguage === "en" ? "Local Guide" : "현지인 가이드"}
                 </div>
               </div>
-            )}
-          </div>
-
-          {currentTip ? (
-            <>
-              <div className="flex items-start mb-3">
-                <div className="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0">
-                  <img
-                    src={currentTip.author.avatar || "/placeholder.svg"}
-                    alt={currentTip.author.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center mb-1">
-                    <p className="font-medium text-deep-navy">
-                      {currentLanguage === "en"
-                        ? currentTip.author.name
-                        : currentTip.author.nameKr || currentTip.author.name}
-                    </p>
-                    <div className="ml-2 px-2 py-0.5 bg-light-sand rounded-full text-xs text-stone-gray flex items-center">
-                      <span className="mr-1">Lv.{currentTip.author.level || 1}</span>
-                      {currentLanguage === "en" ? "Local Guide" : "현지인 가이드"}
-                      {currentTip.author.isVerified && (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-3 w-3 ml-1 text-brand-blue"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      )}
-                    </div>
-                  </div>
-                  <p className="text-stone-gray">
-                    {currentLanguage === "en" ? currentTip.content.en : currentTip.content.kr}
-                  </p>
-                </div>
-              </div>
-
-              {currentTip.tags && currentTip.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {currentTip.tags.map((tag, idx) => (
-                    <span key={idx} className="px-2 py-0.5 bg-brand-blue/10 text-brand-blue rounded-full text-xs">
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
-                <button
-                  onClick={() => handleLikeTip(selectedTipIndex)}
-                  className="flex items-center text-stone-gray hover:text-brand-coral transition-colors"
-                >
-                  <Heart className="h-5 w-5 mr-1" fill={currentTip.likes > 100 ? "currentColor" : "none"} />
-                  <span>
-                    {currentTip.likes} {currentLanguage === "en" ? "likes" : "좋아요"}
-                  </span>
-                </button>
-                <div className="flex items-center">
-                  <MessageCircle className="h-4 w-4 mr-1 text-stone-gray" />
-                  <span className="text-xs text-stone-gray">
-                    {new Date(currentTip.createdAt).toLocaleDateString(currentLanguage === "en" ? "en-US" : "ko-KR", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="flex items-start mb-3">
-              <div className="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0">
-                <img src="/images/jaime-avatar.png" alt="Local guide" className="w-full h-full object-cover" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center mb-1">
-                  <p className="font-medium text-deep-navy">Jaime Sung</p>
-                  <div className="ml-2 px-2 py-0.5 bg-light-sand rounded-full text-xs text-stone-gray">
-                    {currentLanguage === "en" ? "Local Guide" : "현지인 가이드"}
-                  </div>
-                </div>
-                <p className="text-stone-gray">
-                  {currentLanguage === "en"
+              <p className="text-stone-gray">
+                {stamp.localTip
+                  ? currentLanguage === "en"
+                    ? stamp.localTip.en
+                    : stamp.localTip.kr
+                  : currentLanguage === "en"
                     ? "This is a popular spot among locals. Try to visit during weekdays to avoid crowds."
                     : "현지인들 사이에서 인기 있는 장소입니다. 혼잡함을 피하려면 평일에 방문해 보세요."}
-                </p>
-              </div>
+              </p>
             </div>
-          )}
+          </div>
+
+          <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
+            <div className="flex items-center text-stone-gray">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+              <span>
+                {stamp.localTip?.likes || 42} {currentLanguage === "en" ? "likes" : "좋아요"}
+              </span>
+            </div>
+            <div className="text-xs text-stone-gray">
+              {new Date().toLocaleDateString(currentLanguage === "en" ? "en-US" : "ko-KR", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Stamp Collection Progress */}

@@ -388,8 +388,11 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                   )}
                 </div>
 
-                <div className="bg-gray-100 p-3 rounded-lg text-center italic">
-                  <p className="text-sm">
+                <div className="bg-gray-100 p-3 rounded-lg text-center">
+                  <h3 className="font-bold mb-1">
+                    {currentLanguage === "en" ? stamp.name : stamp.nameKr || stamp.name}
+                  </h3>
+                  <p className="text-sm italic">
                     "{currentLanguage === "en" ? stamp.description : stamp.descriptionKr || stamp.description}"
                   </p>
                 </div>
@@ -435,7 +438,7 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
               <div className="mb-4">
                 <div className="flex items-center mb-3">
                   <span className="text-xl mr-2">📍</span>
-                  <span>{stamp.location}</span>
+                  <span className="font-medium">{stamp.location}</span>
                 </div>
 
                 <div className="flex justify-between gap-2">
