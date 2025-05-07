@@ -124,8 +124,12 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
       setShowParticles(false)
       setShowStampImpression(false)
 
-      // Start animation sequence
-      const timer1 = setTimeout(() => setStampAnimationStage(1), 500)
+      // Start animation sequence with more dynamic timing
+      const timer1 = setTimeout(() => {
+        setStampAnimationStage(1)
+        triggerHapticFeedback(hapticPatterns.light)
+      }, 400)
+
       const timer2 = setTimeout(() => {
         setStampAnimationStage(2)
 
@@ -140,14 +144,14 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
         triggerHapticFeedback(hapticPatterns.stamp)
 
         setShowRipple(true)
-        setTimeout(() => setShowParticles(true), 100)
-        setTimeout(() => setShowStampImpression(true), 300)
-      }, 1500)
+        setTimeout(() => setShowParticles(true), 50)
+        setTimeout(() => setShowStampImpression(true), 200)
+      }, 1200)
 
-      // Hide confetti after 3 seconds
+      // Hide confetti after 3.5 seconds
       const timer3 = setTimeout(() => {
         setShowConfetti(false)
-      }, 3000)
+      }, 3500)
 
       return () => {
         clearTimeout(timer1)
@@ -251,7 +255,7 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                 </div>
 
                 {/* Stamp animation area */}
-                <div className="relative h-48 mb-4 flex items-center justify-center">
+                <div className="relative h-48 mb-4 flex items-center justify-center" style={{ perspective: "800px" }}>
                   {/* Passport page background */}
                   <div className="absolute inset-0 bg-brand-sand rounded-lg shadow-inner"></div>
 
@@ -259,10 +263,18 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                   {showRipple && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <motion.div
-                        initial={{ scale: 0.5, opacity: 1 }}
-                        animate={{ scale: 2, opacity: 0 }}
-                        transition={{ duration: 1 }}
+                        initial={{ scale: 0.5, opacity: 0.8, z: 5 }}
+                        animate={{ scale: 2.5, opacity: 0, z: -10 }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
                         className="w-32 h-32 rounded-full bg-brand-coral opacity-30"
+                        style={{ transformStyle: "preserve-3d", transform: "translateZ(0px)" }}
+                      />
+                      <motion.div
+                        initial={{ scale: 0.3, opacity: 0.6, z: 10 }}
+                        animate={{ scale: 2, opacity: 0, z: -5 }}
+                        transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+                        className="w-32 h-32 absolute rounded-full bg-brand-yellow opacity-20"
+                        style={{ transformStyle: "preserve-3d", transform: "translateZ(5px)" }}
                       />
                     </div>
                   )}
@@ -277,13 +289,16 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                       top: "50%",
                       left: "50%",
                       transform: `translate(-50%, -50%) ${
-                        stampAnimationStage === 1
-                          ? "translateY(-50px)"
-                          : stampAnimationStage === 2
-                            ? "translateY(0)"
-                            : ""
+                        stampAnimationStage === 0
+                          ? "translateY(-80px) rotate(-5deg) rotateX(20deg) rotateY(-15deg)"
+                          : stampAnimationStage === 1
+                            ? "translateY(-40px) rotate(0deg) rotateX(10deg) rotateY(5deg)"
+                            : stampAnimationStage === 2
+                              ? "translateY(0) rotate(0deg) rotateX(0deg) rotateY(0deg)"
+                              : ""
                       }`,
-                      transition: "transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                      transformStyle: "preserve-3d",
+                      transition: "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                       zIndex: 20,
                       opacity: stampAnimationStage >= 2 ? 0 : 1, // Stamp disappears when it hits
                     }}
@@ -291,11 +306,16 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                     <div
                       className={`stamp-image w-32 h-32 rounded-full overflow-hidden bg-brand-coral ${
                         isRoyalPalace ? "animate-pulse-glow" : ""
-                      }`}
+                      } ${stampAnimationStage === 1 ? "animate-float-3d" : ""}`}
                       style={{
-                        boxShadow: `0 0 0 4px var(--brand-coral), 0 0 0 6px rgba(255,255,255,0.5)`,
-                        transform: stampAnimationStage === 2 ? "scale(1.1)" : "scale(1)",
-                        transition: "transform 0.2s ease",
+                        boxShadow: `0 0 0 4px var(--brand-coral), 0 0 0 6px rgba(255,255,255,0.5), 0 ${
+                          stampAnimationStage === 0 ? "10" : stampAnimationStage === 1 ? "8" : "5"
+                        }px 15px rgba(0,0,0,${stampAnimationStage === 0 ? "0.3" : stampAnimationStage === 1 ? "0.25" : "0.2"})`,
+                        transform:
+                          stampAnimationStage === 2
+                            ? "scale(1.1) translateZ(5px)"
+                            : `scale(1) translateZ(${stampAnimationStage === 0 ? "20" : "10"}px)`,
+                        transition: "transform 0.2s ease, box-shadow 0.3s ease",
                       }}
                     >
                       <img
@@ -308,6 +328,9 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                         className="absolute inset-0 bg-brand-coral opacity-30"
                         style={{ mixBlendMode: "color" }}
                       ></div>
+                      {stampAnimationStage === 1 && (
+                        <div className="absolute inset-0 bg-white opacity-10 animate-pulse"></div>
+                      )}
                     </div>
                   </div>
 
@@ -319,6 +342,7 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                     style={{
                       opacity: showStampImpression ? 1 : 0,
                       transition: "opacity 0.5s ease",
+                      zIndex: 30,
                     }}
                   >
                     <div
@@ -326,11 +350,12 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                         isRoyalPalace ? "animate-pulse-glow" : ""
                       }`}
                       style={{
-                        boxShadow: `0 0 0 2px white, 0 0 0 4px var(--brand-coral)`,
+                        boxShadow: `0 0 0 2px white, 0 0 0 4px var(--brand-coral), 0 0 15px rgba(255, 107, 107, 0.5)`,
                         position: "relative",
                         animation: showStampImpression
-                          ? "stamp-thunk 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                          ? "stamp-thunk-3d 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
                           : "none",
+                        transform: "translateZ(2px)",
                       }}
                     >
                       <img
@@ -341,43 +366,58 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
                       />
                       <div
                         className="absolute inset-0 bg-brand-coral opacity-30"
-                        style={{ mixBlendMode: "color" }}
+                        style={{
+                          mixBlendMode: "color",
+                          animation: showStampImpression ? "ink-spread 0.8s forwards" : "none",
+                        }}
                       ></div>
+                      {showStampImpression && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="absolute w-full h-full bg-white opacity-20 animate-pulse"></div>
+                        </div>
+                      )}
                     </div>
-                    <div className="stamp-date mt-1 text-sm text-center">{new Date().toLocaleDateString()}</div>
+                    <div className="stamp-date mt-1 text-sm text-center font-medium">
+                      {new Date().toLocaleDateString()}
+                    </div>
                   </div>
 
                   {/* Particles */}
                   {showParticles && (
-                    <div className="absolute inset-0 pointer-events-none">
-                      {Array.from({ length: 20 }).map((_, i) => {
+                    <div className="absolute inset-0 pointer-events-none" style={{ perspective: "500px" }}>
+                      {Array.from({ length: 30 }).map((_, i) => {
                         const size = Math.random() * 6 + 2
-                        const angle = (Math.PI * 2 * i) / 20
-                        const distance = Math.random() * 60 + 40
+                        const angle = (Math.PI * 2 * i) / 30
+                        const distance = Math.random() * 80 + 40
                         const x = Math.cos(angle) * distance
                         const y = Math.sin(angle) * distance
-                        const delay = Math.random() * 0.2
+                        const z = Math.random() * 50 - 25
+                        const delay = Math.random() * 0.3
+                        const duration = Math.random() * 1 + 0.8
+                        const color = i % 3 === 0 ? "bg-brand-yellow" : i % 3 === 1 ? "bg-brand-coral" : "bg-brand-blue"
 
                         return (
                           <motion.div
                             key={i}
-                            className="absolute rounded-full bg-brand-coral"
+                            className={`absolute rounded-full ${color}`}
                             style={{
                               width: size,
                               height: size,
                               top: "50%",
                               left: "50%",
                               opacity: 0.8,
+                              transformStyle: "preserve-3d",
                             }}
-                            initial={{ x: 0, y: 0, opacity: 0.8 }}
+                            initial={{ x: 0, y: 0, z: 0, opacity: 0.8 }}
                             animate={{
                               x,
                               y,
+                              z,
                               opacity: 0,
                               scale: Math.random() * 0.5 + 0.5,
                             }}
                             transition={{
-                              duration: Math.random() * 0.8 + 0.6,
+                              duration,
                               delay,
                               ease: "easeOut",
                             }}
@@ -479,6 +519,128 @@ const StampUnlockedModal = ({ isOpen, onClose, stamp, currentLanguage }: StampUn
           </motion.div>
         </motion.div>
       )}
+      <style jsx global>{`
+        @keyframes stamp-thunk {
+          0% {
+            transform: scale(1.2) rotate(-3deg);
+            opacity: 0.8;
+            filter: brightness(1.2);
+          }
+          20% {
+            transform: scale(0.92) rotate(2deg);
+            filter: brightness(1);
+          }
+          40% {
+            transform: scale(1.05) rotate(-1deg);
+            filter: brightness(1.1);
+          }
+          60% {
+            transform: scale(0.98) rotate(0deg);
+            filter: brightness(1);
+          }
+          80% {
+            transform: scale(1.02) rotate(0deg);
+            filter: brightness(1.05);
+          }
+          100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+            filter: brightness(1);
+          }
+        }
+
+        @keyframes pulse-glow {
+          0% {
+            box-shadow: 0 0 0 4px var(--brand-coral), 0 0 0 6px rgba(255,255,255,0.5), 0 0 15px 2px rgba(255, 107, 107, 0.4);
+          }
+          50% {
+            box-shadow: 0 0 0 4px var(--brand-coral), 0 0 0 6px rgba(255,255,255,0.7), 0 0 25px 5px rgba(255, 107, 107, 0.6);
+          }
+          100% {
+            box-shadow: 0 0 0 4px var(--brand-coral), 0 0 0 6px rgba(255,255,255,0.5), 0 0 15px 2px rgba(255, 107, 107, 0.4);
+          }
+        }
+
+        @keyframes ink-spread {
+          0% {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          50% {
+            opacity: 0.5;
+            transform: scale(1.1);
+          }
+          100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-5px);
+          }
+        }
+
+        .animate-pulse-glow {
+          animation: pulse-glow 2s infinite;
+        }
+
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes stamp-thunk-3d {
+          0% {
+            transform: scale(1.2) rotate(-3deg) translateZ(30px);
+            opacity: 0.8;
+            filter: brightness(1.2);
+          }
+          20% {
+            transform: scale(0.92) rotate(2deg) translateZ(5px);
+            filter: brightness(1);
+          }
+          40% {
+            transform: scale(1.05) rotate(-1deg) translateZ(10px);
+            filter: brightness(1.1);
+          }
+          60% {
+            transform: scale(0.98) rotate(0deg) translateZ(3px);
+            filter: brightness(1);
+          }
+          80% {
+            transform: scale(1.02) rotate(0deg) translateZ(5px);
+            filter: brightness(1.05);
+          }
+          100% {
+            transform: scale(1) rotate(0deg) translateZ(2px);
+            opacity: 1;
+            filter: brightness(1);
+          }
+        }
+
+        @keyframes float-3d {
+          0%, 100% {
+            transform: translateY(0) translateZ(10px) rotateX(0deg) rotateY(0deg);
+          }
+          25% {
+            transform: translateY(-5px) translateZ(15px) rotateX(2deg) rotateY(1deg);
+          }
+          50% {
+            transform: translateY(-8px) translateZ(12px) rotateX(-1deg) rotateY(-1deg);
+          }
+          75% {
+            transform: translateY(-3px) translateZ(8px) rotateX(1deg) rotateY(2deg);
+          }
+        }
+
+        .animate-float-3d {
+          animation: float-3d 3s ease-in-out infinite;
+        }
+      `}</style>
     </AnimatePresence>
   )
 }
